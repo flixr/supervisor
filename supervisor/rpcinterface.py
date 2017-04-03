@@ -5,6 +5,7 @@ import errno
 import types
 
 from supervisor.datatypes import signal_number
+from supervisor.monotonic import monotonic
 
 from supervisor.options import readFile
 from supervisor.options import tailFile
@@ -643,7 +644,7 @@ class SupervisorNamespaceRPCInterface:
 
     def _now(self): # pragma: no cover
         # this is here to service stubbing in unit tests
-        return time.time()
+        return monotonic()
 
     def getAllProcessInfo(self):
         """ Get info about all processes

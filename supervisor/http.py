@@ -26,6 +26,8 @@ from supervisor.medusa import default_handler
 
 from supervisor.medusa.auth_handler import auth_handler
 
+from supervisor.monotonic import monotonic
+
 class NOT_DONE_YET:
     pass
 
@@ -337,7 +339,7 @@ class deferring_http_channel(http_server.http_channel):
 
     def writable(self, now=None):
         if now is None:  # for unit tests
-            now = time.time()
+            now = monotonic()
 
         if self.delay:
             # we called a deferred producer via this channel (see refill_buffer)

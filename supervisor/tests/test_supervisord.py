@@ -9,6 +9,8 @@ import shutil
 from supervisor.states import ProcessStates
 from supervisor.states import SupervisorStates
 
+from supervisor.monotonic import monotonic
+
 from supervisor.tests.base import DummyOptions
 from supervisor.tests.base import DummyPConfig
 from supervisor.tests.base import DummyPGroupConfig
@@ -240,7 +242,7 @@ class SupervisordTests(unittest.TestCase):
         options._signal = signal.SIGUSR2
         pconfig1 = DummyPConfig(options, 'process1', 'process1','/bin/process1')
         process1 = DummyProcess(pconfig1, state=ProcessStates.STOPPING)
-        process1.delay = time.time() - 1
+        process1.delay = monotonic() - 1
         supervisord = self._makeOne(options)
         pconfigs = [DummyPConfig(options, 'foo', 'foo', '/bin/foo')]
         options.process_group_configs = DummyPGroupConfig(
