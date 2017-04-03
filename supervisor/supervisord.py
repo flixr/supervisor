@@ -37,6 +37,7 @@ import select
 import signal
 
 from supervisor.medusa import asyncore_25 as asyncore
+from supervisor.monotonic import monotonic
 
 from supervisor.options import ServerOptions
 from supervisor.options import signame
@@ -150,7 +151,7 @@ class Supervisor:
 
         if unstopped:
             # throttle 'waiting for x to die' reports
-            now = time.time()
+            now = monotonic()
             if now > (self.lastshutdownreport + 3): # every 3 secs
                 names = [ p.config.name for p in unstopped ]
                 namestr = ', '.join(names)
@@ -267,7 +268,7 @@ class Supervisor:
         the period for the event type rolls over """
         if now is None:
             # now won't be None in unit tests
-            now = time.time()
+            now = monotonic()
         for event in events.TICK_EVENTS:
             period = event.period
             last_tick = self.ticks.get(period)
